@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04 - 100Coders</title>
+    <script src="./scripts.js" defer></script>
+    <link rel="stylesheet" href="./output4.css" />
+  </head>
+  <body class="bg-gray-100/75">
+    <div
+      class="modal-container bg-transparent hidden w-[100vw] h-[100vh] flex justify-center items-center absolute z-10 top-0 left-0 right-0"
+    >
+      <div
+        class="backcolorModal backdrop-blur-sm w-[100vw] h-[100vh] absolute top-0 right-0 left-0"
+      ></div>
+      <div
+        class="modal rounded-3xl backdrop-blur-md shadow-2xl shadow-black/10 border border-1 border-gray-200/60 bg-gray-300/5 min-h-[72vh] min-w-[50vw] flex flex-col justify-center items-center relative p-0 m-9"
+      >
+        <div
+          class="close absolute bg-red-400/30 font-extrabold text-black-500 shadow-lg hover:shadow-red-200/80 cursor-pointer backdrop-blur-sm rounded-full px-8 py-6 top-[-2.4rem] backdrop-blur border border-red-500/5"
+        >
+          &#x2715;
+        </div>
+        <h2 class="mx-auto w-3/4 text-2xl font-extrabold text-center mb-10">
+          Submit Your
+          <span
+            class="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-pink-500 relative inline-block"
+          >
+            <span class="relative text-white">Task</span>
+          </span>
+        </h2>
+        <input
+          type="text"
+          name="name"
+          class="taskName border-b-4 border-cyan-500 px-14 mb-10 w-3/4 text-center rounded-lg"
+          placeholder="Task Title ..."
+        />
+        <input
+          type="submit"
+          class="submitTask outline outline-offset-4 outline-cyan-500 cursor-pointer bg-white self-start ml-[13.5%] px-8 py-2 rounded-md"
+          value="Submit Task"
+        />
+      </div>
+    </div>
+    <div
+      class="container min-h-[100vh] flex flex-col justify-center p-14 mx-auto relative"
+    >
+    <h2 class="mx-auto w-3/4 text-2xl font-extrabold text-center mb-10">
+        Mange Your Task With
+        <span
+          class="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-cyan-500 relative inline-block"
+        >
+          <span class="relative text-white">To Do List</span>
+        </span>
+      </h2>
+      <div class="taskList flex flex-col gap-5">
+        <input
+          type="text"
+          name="name"
+          class="searchTask border-b-4 border-cyan-500 rounded-lg px-14 mb-10 w-full text-center"
+          placeholder="Search In Tasks..."
+        />
+      </div>
+      
+    </div>
+    <div
+        class="addTask rounded-full shadow-2xl hover:shadow-blue-500 w-16 h-16 sticky bottom-[50px] left-[50px] bg-gradient-to-b p-1 from-cyan-500 to-blue-500 cursor-pointer"
+      >
+        <span
+          class="text-white flex justify-center flex items-end rounded-full text-[40px] leading-0 hover:bg-transparent h-full w-full text-black hover:text-white bg-white"
+          >&plus;</span
+        >
+      </div>
+    <input type="text" name="name" class="hidden task shadow-md rounded-md px-14
+    py-3 mb-10 w-full text-center border-0 from-cyan-500 to-blue-500 value=""
+    readonly />
+    <template id="task-template">
+      <div
+        id="%%id%%"
+        class="task taskcontainer flex-wrap flex-row-reverse flex justify-center items-center gap-2"
+      >
+        <input
+          type="text"
+          name="name"
+          class="cursor-pointer outline-pink-500 outline-offset-2   focus:ring-0 shadow-sm rounded-md px-14 py-3 w-10/12 text-center border-0 from-cyan-500 to-blue-500"
+          onclick="taskToggle(this)"
+          onkeydown="enterKey(event)"
+          value="%%value%%"
+          data-target="%%id%%"
+          readonly
+        />
+        <button
+          class="acceptTask hidden text-white p-3 shadow-sm rounded-md text-center w-14 bg-green-700 cursor-pointer"
+          data-target="%%id%%"
+          onclick="acceptTask(this)"
+        >
+        &#10003;		
+        </button>
+        <button
+          class="editTask text-white p-3 shadow-sm rounded-md text-center w-14 bg-gray-500 cursor-pointer"
+          data-target="%%id%%"
+          onclick="taskEdit(this)"
+        >
+          Edit
+        </button>
+        <button
+          class="delTask bg-red-500 text-white p-3 shadow-sm rounded-md text-center w-12 cursor-pointer"
+          data-target="%%id%%"
+          onclick="taskDel(this)"
+        >
+          &#x2715;
+        </button>
+      </div>
+    </template>
+  </body>
+</html>
