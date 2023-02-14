@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>04 - 100Coders</title>
     <script src="./scripts.js" defer></script>
-    <link rel="stylesheet" href="./output4.css" />
+    <link rel="stylesheet" href="../../dist/output4.css" />
   </head>
   <body class="bg-gray-100/75">
     <div
@@ -45,7 +45,7 @@
       </div>
     </div>
     <div
-      class="container min-h-[100vh] flex flex-col justify-center p-14 mx-auto relative"
+      class="container min-h-[100vh] max-h-screen max-w-screen  flex flex-col justify-center p-14 mx-auto relative"
     >
     <h2 class="mx-auto w-3/4 text-2xl font-extrabold text-center mb-10">
         Mange Your Task With
@@ -65,13 +65,19 @@
       </div>
       
     </div>
+
+      
     <div
-        class="addTask rounded-full shadow-2xl hover:shadow-blue-500 w-16 h-16 sticky bottom-[50px] left-[50px] bg-gradient-to-b p-1 from-cyan-500 to-blue-500 cursor-pointer"
+        class="group addTask rounded-full shadow-2xl hover:shadow-blue-500 w-16 h-16 sticky bottom-[50px] left-[50px] bg-gradient-to-b p-1 from-cyan-500 to-blue-500 cursor-pointer relative flex flex-col items-center"
       >
         <span
-          class="text-white flex justify-center flex items-end rounded-full text-[40px] leading-0 hover:bg-transparent h-full w-full text-black hover:text-white bg-white"
+          class="text-black flex justify-center flex items-end rounded-full text-[40px] leading-0 group-hover:bg-transparent h-full w-full text-black group-hover:text-white bg-white"
           >&plus;</span
         >
+        <div class="absolute bottom-[40px] flex-col items-center hidden mb-6 group-hover:flex">
+			<span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black shadow-lg">Ctr+Enter</span>
+			<div class="w-3 h-3 -mt-2 rotate-45 bg-black"></div>
+		</div>
       </div>
     <input type="text" name="name" class="hidden task shadow-md rounded-md px-14
     py-3 mb-10 w-full text-center border-0 from-cyan-500 to-blue-500 value=""
@@ -84,7 +90,7 @@
         <input
           type="text"
           name="name"
-          class="cursor-pointer outline-pink-500 outline-offset-2   focus:ring-0 shadow-sm rounded-md px-14 py-3 w-10/12 text-center border-0 from-cyan-500 to-blue-500"
+          class="cursor-pointer outline-pink-500 outline-offset-2 focus:ring-0 shadow-sm rounded-md px-14 py-3 w-10/12 text-center border-0 from-cyan-500 to-blue-500"
           onclick="taskToggle(this)"
           onkeydown="enterKey(event)"
           value="%%value%%"

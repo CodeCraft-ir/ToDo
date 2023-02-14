@@ -1,30 +1,46 @@
 const taskList = document.querySelector(".taskList");
 const taskTempalte = document.querySelector("#task-template").innerHTML;
-
-for (let i = 2; localStorage.getItem("task" + i) != null; i++) {
-  const task = localStorage.getItem("task" + i);
-  submitTask(task);
+let tasks = JSON.parse(localStorage.getItem("tasks"));
+if (tasks) {
+  for (const taskId in tasks) {
+    // console.log(tasks[taskId]);
+    // const task = localStorage.getItem("task" + i);
+    submitTask(tasks[taskId]);
+  }
 }
-
 function toggleModal(action) {
   const modal = document.querySelector(".modal-container");
   if (action == "show") {
     modal.classList.remove("hidden");
-    const task = (document.querySelector(".taskName").value = "");
+    const taskInput = document.querySelector(".taskName");
+    taskInput.value = "";
+    taskInput.focus();
+    document.querySelector('body').classList.add('overflow-hidden')
   } else if (action == "hide") {
     modal.classList.add("hidden");
+    document.querySelector('body').classList.remove('overflow-hidden')
   }
 }
 
 function submitTask(task = null) {
-  task = task == null ? document.querySelector(".taskName").value : task;
   let newTask = taskTempalte;
-  const taskNum = taskList.childElementCount+1
-  newTask = newTask.replaceAll("%%id%%", "task" + taskNum );
-  newTask = newTask.replaceAll("%%value%%", task);
+
+  if (task == null) {
+    const taskId = "task-" + taskList.childElementCount + 1;
+    const taskInput = document.querySelector(".taskName").value;
+    task = { id: taskId, title: taskInput };
+  }
+  newTask = newTask.replaceAll("%%id%%", task["id"]);
+  newTask = newTask.replaceAll("%%value%%", task["title"]);
   newTask = document.createRange().createContextualFragment(newTask);
   taskList.appendChild(newTask);
-  localStorage.setItem("task" + taskNum     , task);
+  if (tasks) {
+    tasks = JSON.parse(localStorage.getItem("tasks"));
+  } else {
+    tasks = {};
+  }
+  tasks[task["id"]] = task;
+  localStorage.setItem("tasks", JSON.stringify(tasks));
   toggleModal("hide");
 }
 
@@ -38,7 +54,7 @@ function searchTask() {
       task.classList.remove("hidden");
     }
   }
-}   
+}
 
 function taskToggle(e) {
   if (!e.hasAttribute("readonly")) {
@@ -57,15 +73,18 @@ function taskEdit(e) {
   }
   inputTask.removeAttribute("readonly");
   inputTask.classList.add("outline");
-  document
+    document
     .querySelector("#" + taskId + " .acceptTask")
     .classList.remove("hidden");
+  inputTask.focus();
 }
 
 function acceptTask(e) {
   const taskId = e.getAttribute("data-target");
   const taskInput = document.querySelector("#" + taskId + " input");
-  localStorage.setItem(taskId, taskInput.value);
+  tasks = JSON.parse(localStorage.getItem("tasks"));
+  tasks[taskId] = { id: taskId, title: taskInput.value };
+  localStorage.setItem("tasks", JSON.stringify(tasks));
   taskInput.setAttribute("readonly", "true");
   taskInput.classList.remove("outline");
   document.querySelector("#" + taskId + " .acceptTask").classList.add("hidden");
@@ -74,7 +93,9 @@ function acceptTask(e) {
 function taskDel(e) {
   const taskId = e.getAttribute("data-target");
   document.getElementById(taskId).remove();
-  localStorage.removeItem(taskId);
+  tasks = JSON.parse(localStorage.getItem("tasks"));
+  delete tasks[taskId];
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 document.querySelector(".addTask").addEventListener("click", () => {
@@ -90,15 +111,25 @@ document.querySelector(".taskName").addEventListener("keydown", (event) => {
 });
 
 function enterKey(event) {
-    
   if (event.which == 13) {
     const taskid = event.target.getAttribute("data-target");
     const acceptBtn = document.querySelector("#" + taskid + " .acceptTask");
     acceptTask(acceptBtn);
   }
-};
+}
 document.querySelector(".close").addEventListener("click", () => {
   toggleModal("hide");
 });
 
 document.querySelector(".searchTask").addEventListener("keyup", searchTask);
+
+document.addEventListener("keyup", (event) => {
+  
+  if (event.ctrlKey && event.which == 13) {
+    toggleModal("show");
+  }else if(event.which == 27){
+    toggleModal("hide");
+  }
+  
+  
+});
